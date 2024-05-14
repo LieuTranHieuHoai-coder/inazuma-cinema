@@ -53,7 +53,7 @@ export default function MovieManagement() {
     queryKey: ["list-movie", { currentPage }],
     queryFn: () => getListMovieApi(currentPage),
   });
-
+  console.log(data);
   const queryClient = useQueryClient();
 
   const { mutate: handleAddMovie, isPending } = useMutation({

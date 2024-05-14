@@ -1,27 +1,68 @@
-import { Button } from "antd";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-
-export default function Header() {
-  const navigate = useNavigate();
-  return (
-    <div className="flex h-[92px] items-center justify-between px-4">
-      <p className="font-semibold">Logo</p>
-      <div className="flex items-center gap-4">
-        <span className="font-medium cursor-pointer">Menu 1</span>
-        <span className="font-medium cursor-pointer">Menu 2</span>
-        <span className="font-medium cursor-pointer"> Menu 3</span>
-      </div>
-      <div className="flex items-center gap-3">
-        <Button size="large">Đăng ký</Button>
-        <Button
-          size="large"
-          type="primary"
-          onClick={() => navigate("/auth/login")}
-        >
-          Đăng nhập
-        </Button>
-      </div>
-    </div>
-  );
-}
+import React, { useState } from 'react';
+import { AppstoreOutlined, MailOutlined, SettingOutlined, DownOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
+import { FaTicketAlt } from "react-icons/fa";
+const items = [
+  {
+    label: 'Mua vé',
+    key: 'ticket',
+    icon: <FaTicketAlt/>,
+  },
+  {
+    label: 'Góc điện ảnh',
+    key: 'app',
+    icon: <AppstoreOutlined />,
+  },
+  {
+    label: 'Phim',
+    key: 'movie',
+    icon: <DownOutlined />,
+    children: [
+      {
+        type: 'group',
+        label: 'Item 1',
+        children: [
+          {
+            label: 'Option 1',
+            key: 'setting:1',
+          },
+          {
+            label: 'Option 2',
+            key: 'setting:2',
+          },
+        ],
+      },
+      {
+        type: 'group',
+        label: 'Item 2',
+        children: [
+          {
+            label: 'Option 3',
+            key: 'setting:3',
+          },
+          {
+            label: 'Option 4',
+            key: 'setting:4',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: 'event',
+    label: (
+      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+        Sự kiện
+      </a>
+    ),
+  },
+];
+const Header = () => {
+  const [current, setCurrent] = useState('mail');
+  const onClick = (e:any) => {
+    console.log('click ', e);
+    setCurrent(e.key);
+  };
+  return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} className='mt-5 mb-5'/>;
+};
+export default Header;
