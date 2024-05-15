@@ -1,6 +1,7 @@
 import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 import MovieList from './MovieList';
+import { AiFillCalendar, AiFillGold, AiFillStar, AiFillVideoCamera } from "react-icons/ai";
 export default function TabMovie() {
     type Tab = {
         key: string;
@@ -12,22 +13,27 @@ export default function TabMovie() {
         {
             key: 'phim',
             label: 'Phim',
-            children: <MovieList></MovieList>,
-            icon: <AndroidOutlined/>,
+            children: <MovieList tabname={'phim'}></MovieList>,
+            icon: <AiFillGold />,
         },
         {
             key: 'dangchieu',
             label: 'Đang Chiếu',
-            children: 'phimcontent2',
-            icon: <AndroidOutlined/>,
+            children: <MovieList tabname={'dangchieu'}></MovieList>,
+            icon: <AiFillVideoCamera  />,
         },
         {
             key: 'sapchieu',
             label: 'Sắp Chiếu',
-            children: 'phimcontent3',
-            icon: <AndroidOutlined/>,
+            children: <MovieList tabname={'sapchieu'}></MovieList>,
+            icon: <AiFillCalendar />,
         },
-
+        {
+            key: 'hot',
+            label: 'Hot',
+            children: <MovieList tabname={'hot'}></MovieList>,
+            icon: <AiFillStar/>,
+        },
     ]
 
     function renderTab(tab: Tab){
