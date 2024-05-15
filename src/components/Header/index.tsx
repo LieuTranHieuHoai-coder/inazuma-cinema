@@ -51,7 +51,7 @@ const items = [
   {
     key: 'event',
     label: (
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+      <a target="_blank" rel="noopener noreferrer">
         Sự kiện
       </a>
     ),

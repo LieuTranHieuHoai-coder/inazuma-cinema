@@ -1,5 +1,5 @@
 import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
-import { Tabs } from 'antd';
+import { ConfigProvider, Tabs } from 'antd';
 import MovieList from './MovieList';
 import { AiFillCalendar, AiFillGold, AiFillStar, AiFillVideoCamera } from "react-icons/ai";
 export default function TabMovie() {
@@ -9,6 +9,7 @@ export default function TabMovie() {
         children: any;
         icon: any;
     }
+
     const tabs: Tab[] = [
         {
             key: 'phim',
@@ -20,7 +21,7 @@ export default function TabMovie() {
             key: 'dangchieu',
             label: 'Đang Chiếu',
             children: <MovieList tabname={'dangchieu'}></MovieList>,
-            icon: <AiFillVideoCamera  />,
+            icon: <AiFillVideoCamera />,
         },
         {
             key: 'sapchieu',
@@ -32,31 +33,41 @@ export default function TabMovie() {
             key: 'hot',
             label: 'Hot',
             children: <MovieList tabname={'hot'}></MovieList>,
-            icon: <AiFillStar/>,
+            icon: <AiFillStar />,
         },
     ]
 
-    function renderTab(tab: Tab){
-        return (
-            <Tabs.TabPane tab={tab.label} key={tab.key}>
-                {tab.children}
-            </Tabs.TabPane>
-        )
-    }
     return (
-        <Tabs
-            defaultActiveKey="2"
-            items={tabs?.map((t) => {
-                return {
-                    key: t.key,
-                    label: t.label,
-                    children: t.children,
-                    icon: t.icon,
-                };
-            }
-            )
-            }
+        <ConfigProvider
+            theme={{
+                components: {
+                    Tabs: {
+                        fontSize: 24,
+                        itemHoverColor: 'rgb(242, 107, 56)',
+                        itemSelectedColor: 'rgb(242, 107, 56)',
+                        inkBarColor:'rgb(242, 107, 56)',
+                    }
+                },
+                token: {
+                    borderRadius: 2,
+                },
+            }}
+        >
+            <Tabs
+                defaultActiveKey="2"
+                items={tabs?.map((t) => {
+                    return {
+                        key: t.key,
+                        label: t.label,
+                        children: t.children,
+                        icon: t.icon,
+                    };
+                }
+                )
+                }
 
-        />
+            />
+        </ConfigProvider>
+
     )
 }

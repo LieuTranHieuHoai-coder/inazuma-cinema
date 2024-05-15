@@ -5,11 +5,13 @@ import { PAGE_SIZE } from "../../../constants";
 import { Button, Card, Col, Row } from "antd";
 import Meta from "antd/es/card/Meta";
 import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 interface Props {
   tabname: string;
 }
 export default function MovieList(props: Props) {
   const { tabname } = props;
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading, error } = useQuery({
     queryKey: ["list-movie-user", 1],
@@ -64,6 +66,9 @@ export default function MovieList(props: Props) {
     const handleMouseLeave3 = () => {
       setIsHover3(false);
     };
+    const goDetails = (item:number) => {
+      navigate(`/details/${item}`);
+    };
     return (
       <Col className="gutter-row" span={6} key={item.maPhim}>
         <div
@@ -104,6 +109,7 @@ export default function MovieList(props: Props) {
               <Button
                 onMouseEnter={handleMouseEnter2}
                 onMouseLeave={handleMouseLeave2}
+                onClick={() => goDetails(item.maPhim)}
                 icon={<AndroidOutlined />}
                 style={{
                   width: 150,

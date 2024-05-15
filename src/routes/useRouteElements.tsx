@@ -35,7 +35,7 @@ const useRouteElement = () => {
           element: <HomePage />,
         },
         {
-          path: "/details",
+          path: "/details/:id",
           element: <MovieDetails />,
         },
       ],
