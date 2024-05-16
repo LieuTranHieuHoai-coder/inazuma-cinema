@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from "../constants";
+import { PAGE_SIZE, MANHOM } from "../constants";
 import { Banner, DataMovieListPagination, ListRap, LstHeThongRap, LstRapToanQuoc, Movie, ShowMovie } from "../types/movie.type";
 import { ResponseApi } from "../types/util";
 import api from "./apiUtil";
@@ -13,7 +13,6 @@ export const getBannerMovieApi = async () => {
     throw Error(error);
   }
 };
-
 export const addMovieApi = async (payload: FormData) => {
   try {
     const response = await api.post("/QuanLyPhim/ThemPhimUploadHinh", payload);
@@ -22,7 +21,6 @@ export const addMovieApi = async (payload: FormData) => {
     throw "Lỗi rồi";
   }
 };
-
 export const getListMovieApi = async (currentPage: number) => {
   try {
     const response = await api.get<ResponseApi<DataMovieListPagination>>(
@@ -36,14 +34,13 @@ export const getListMovieApi = async (currentPage: number) => {
 export const getThongTinLichChieuHeThongRap = async (maHeThongRap:string, maNhom:string) => {
   try {
     const response = await api.get<ResponseApi<LstHeThongRap>>(
-      `/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=${maNhom}`
+      `/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=${MANHOM}`
     );
     return response.data.content;
   } catch (error: any) {
     throw Error(error);
   }
 }
-
 export const getThongTinHeThongRap = async () => {
   try {
     const response = await api.get<ResponseApi<LstRapToanQuoc[]>>(
@@ -54,7 +51,6 @@ export const getThongTinHeThongRap = async () => {
     throw Error(error);
   }
 }
-
 export const getThongTinCumRapTheoHeThong = async (marap:string) => {
   try {
     const response = await api.get<ResponseApi<ListRap[]>>(
@@ -65,7 +61,6 @@ export const getThongTinCumRapTheoHeThong = async (marap:string) => {
     throw Error(error);
   }
 }
-
 export const getThongTinPhim = async (maphim:string) => {
   try {
     const response = await api.get<ResponseApi<Movie>>(
@@ -76,7 +71,6 @@ export const getThongTinPhim = async (maphim:string) => {
     throw Error(error);
   }
 }
-
 export const getThongTinLichChieuPhim = async (maphim:string) => {
   try {
     const response = await api.get<ResponseApi<ShowMovie>>(

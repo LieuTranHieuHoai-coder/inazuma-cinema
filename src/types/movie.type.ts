@@ -26,20 +26,44 @@ export interface Movie {
   dangChieu: boolean;
   sapChieu: boolean;
 }
+// api laythong tin lic chieu
 export interface ShowMovie {
-  heThongRapChieu: any[];
-  maPhim:          number;
-  tenPhim:         string;
-  biDanh:          string;
-  trailer:         string;
-  hinhAnh:         string;
-  moTa:            string;
-  maNhom:          string;
-  hot:             boolean;
-  dangChieu:       boolean;
-  sapChieu:        boolean;
-  ngayKhoiChieu:   string;
-  danhGia:         number;
+  heThongRapChieu: HeThongRapChieu[];
+    maPhim:          number;
+    tenPhim:         string;
+    biDanh:          string;
+    trailer:         string;
+    hinhAnh:         string;
+    moTa:            string;
+    maNhom:          string;
+    hot:             boolean;
+    dangChieu:       boolean;
+    sapChieu:        boolean;
+    ngayKhoiChieu:   string;
+    danhGia:         number;
+}
+export interface HeThongRapChieu {
+  cumRapChieu:   CumRapChieu[];
+  maHeThongRap:  string;
+  tenHeThongRap: string;
+  logo:          string;
+}
+
+export interface CumRapChieu {
+  lichChieuPhim: LichChieuPhim[];
+  maCumRap:      string;
+  tenCumRap:     string;
+  hinhAnh:       string;
+  diaChi:        string;
+}
+
+export interface LichChieuPhim {
+  maLichChieu:       string;
+  maRap:             string;
+  tenRap:            string;
+  ngayChieuGioChieu: Date;
+  giaVe:             number;
+  thoiLuong:         number;
 }
 
 /*rap phim*/
@@ -57,7 +81,6 @@ export interface LstHeThongRap {
   logo:          string;
   mahom:         string;
 }
-
 export interface LstCumRap {
   danhSachPhim: DanhSachPhim[];
   maCumRap:     string;
@@ -65,7 +88,6 @@ export interface LstCumRap {
   hinhAnh:      string;
   diaChi:       string;
 }
-
 export interface DanhSachPhim {
   lstLichChieuTheoPhim: LstLichChieuTheoPhim[];
   maPhim:               number;
@@ -75,7 +97,6 @@ export interface DanhSachPhim {
   dangChieu:            boolean | null;
   sapChieu:             boolean | null;
 }
-
 export interface LstLichChieuTheoPhim {
   maLichChieu:       number;
   maRap:             string;
