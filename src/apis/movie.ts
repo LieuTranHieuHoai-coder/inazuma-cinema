@@ -24,7 +24,7 @@ export const addMovieApi = async (payload: FormData) => {
 export const getListMovieApi = async (currentPage: number) => {
   try {
     const response = await api.get<ResponseApi<DataMovieListPagination>>(
-      `/QuanLyPhim/LayDanhSachPhimPhanTrang?maNhom=GP01&soTrang=${currentPage}&soPhanTuTrenTrang=${PAGE_SIZE}`
+      `/QuanLyPhim/LayDanhSachPhimPhanTrang?maNhom=${MANHOM}&soTrang=${currentPage}&soPhanTuTrenTrang=${PAGE_SIZE}`
     );
     return response.data.content;
   } catch (error: any) {

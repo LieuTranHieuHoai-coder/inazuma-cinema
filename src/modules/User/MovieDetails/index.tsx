@@ -11,50 +11,70 @@ export default function MovieDetails() {
   let { id } = useParams();
   const { data, isLoading, error } = useQuery({
     queryKey: ["ThongTinPhim", id],
-    queryFn: () => id ? getThongTinLichChieuPhim(id) : Promise.reject("Movie ID is undefined"),
+    queryFn: () =>
+      id
+        ? getThongTinLichChieuPhim(id)
+        : Promise.reject("Movie ID is undefined"),
   });
   const movies = {
-    ...data
+    ...data,
   };
   function renderMovieDetails() {
     console.log(isLoading);
     if (isLoading) {
-      return (<>
-        <Card style={{ width: 300, marginTop: 16 }} loading={isLoading}>
-          <Meta
-
-            title="Card title"
-            description="This is the description"
-          />
-        </Card>
-      </>)
-    }
-    else {
+      return (
+        <>
+          <Card style={{ width: 300, marginTop: 16 }} loading={isLoading}>
+            <Meta title="Card title" description="This is the description" />
+          </Card>
+        </>
+      );
+    } else {
       return (
         <div>
-          <Card
-            hoverable
-            className="col-md-6"
-            cover={<img alt="example" src={movies.hinhAnh} />}
-          >
-            <div className="m-5 p-3">
-              <h1>{movies.tenPhim}</h1>
-              <h3>{movies.moTa}</h3>
-              <h2 className="m-5 p-3"><CalendarOutlined /> Ngày khởi chiếu: {dayjs(movies.ngayKhoiChieu).format('DD/MM/YYYY')}</h2>
-              <h1 className="m-5 p-3"><YoutubeOutlined /> <a target="_blank" href={movies.trailer}>Trailer</a></h1>
-              <h1 className="inline-flex items-baseline"> <span className="mr-2" style={{width:10 , height: 25, background: "blue", display: "block"}}></span> Lịch Chiếu</h1>
+          <Card>
+            <div className="grid grid-cols-2">
+              <div className="container">
+                <img alt="example" src={movies.hinhAnh} className="m-3 container" />
+              </div>
+              <div className="container ml-5">
+                <div className="m-0 p-3">
+                  <h1>{movies.tenPhim}</h1>
+                  <h3>{movies.moTa}</h3>
+                  <h2 className="m-0 p-3">
+                    <CalendarOutlined /> Ngày khởi chiếu:{" "}
+                    {dayjs(movies.ngayKhoiChieu).format("DD/MM/YYYY")}
+                  </h2>
+                  <h1 className="m-0 p-3">
+                    <YoutubeOutlined />{" "}
+                    <a target="_blank" href={movies.trailer}>
+                      Trailer
+                    </a>
+                  </h1>
+                </div>
+              </div>
+            </div>
+            <div className="m-0 p-3">
+              <h1 className="inline-flex items-baseline mb-5">
+                {" "}
+                <span
+                  className="mr-2"
+                  style={{
+                    width: 10,
+                    height: 25,
+                    background: "blue",
+                    display: "block",
+                  }}
+                ></span>{" "}
+                Chọn rạp chiếu
+              </h1>
               <LichChieuComponent></LichChieuComponent>
             </div>
           </Card>
-
         </div>
       );
     }
-
   }
 
-  return (
-
-    <div>{renderMovieDetails()}</div>
-  );
+  return <div>{renderMovieDetails()}</div>;
 }
