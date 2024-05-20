@@ -1,5 +1,5 @@
 import { PAGE_SIZE, MANHOM } from "../constants";
-import { Banner, DataMovieListPagination, ListRap, LstHeThongRap, LstRapToanQuoc, Movie, ShowMovie } from "../types/movie.type";
+import { Banner, DataMovieListPagination, GiaVePhim, ListRap, LstHeThongRap, LstRapToanQuoc, Movie, ShowMovie } from "../types/movie.type";
 import { ResponseApi } from "../types/util";
 import api from "./apiUtil";
 
@@ -75,6 +75,17 @@ export const getThongTinLichChieuPhim = async (maphim:string) => {
   try {
     const response = await api.get<ResponseApi<ShowMovie>>(
       "QuanLyRap/LayThongTinLichChieuPhim?MaPhim=" + maphim
+    );
+    return response.data.content;
+  } catch (error: any) {
+    throw Error(error);
+  }
+}
+
+export const getGiaVePhim = async (MaLichChieu:string) => {
+  try {
+    const response = await api.get<ResponseApi<GiaVePhim>>(
+      "QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=" + MaLichChieu
     );
     return response.data.content;
   } catch (error: any) {

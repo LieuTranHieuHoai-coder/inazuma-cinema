@@ -12,6 +12,7 @@ import MovieManagement from "../modules/Admin/MovieManagement";
 import CinemaManagement from "../modules/Admin/CinemaManagement";
 import AccountSettings from "../modules/Admin/AccountSettings";
 import { useAppSelector } from "../redux/hooks";
+import BookSeat from "../modules/User/BookingSeat";
 
 const ProtectedRoute = () => {
   const { currentUser } = useAppSelector((state) => state.user);
@@ -46,12 +47,12 @@ const useRouteElement = () => {
           element: <HomePage />,
         },
         {
-          path: "/details:id",
+          path: "/details/:id",
           element: <MovieDetails />,
         },
         {
-          path: "/bookingseat",
-          element: <MovieDetails />,
+          path: "/bookingseat/:id",
+          element: <BookSeat />,
         },
       ],
     },

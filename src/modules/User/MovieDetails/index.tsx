@@ -16,11 +16,7 @@ export default function MovieDetails() {
         ? getThongTinLichChieuPhim(id)
         : Promise.reject("Movie ID is undefined"),
   });
-  const movies = {
-    ...data,
-  };
   function renderMovieDetails() {
-    console.log(isLoading);
     if (isLoading) {
       return (
         <>
@@ -29,25 +25,26 @@ export default function MovieDetails() {
           </Card>
         </>
       );
-    } else {
+    } 
+    else {
       return (
         <div>
           <Card>
             <div className="grid grid-cols-2">
               <div className="container">
-                <img alt="example" src={movies.hinhAnh} className="m-3 container" />
+                <img alt="example" src={data?.hinhAnh} className="m-3 container" />
               </div>
               <div className="container ml-5">
                 <div className="m-0 p-3">
-                  <h1>{movies.tenPhim}</h1>
-                  <h3>{movies.moTa}</h3>
+                  <h1>{data?.tenPhim}</h1>
+                  <h3>{data?.moTa}</h3>
                   <h2 className="m-0 p-3">
                     <CalendarOutlined /> Ngày khởi chiếu:{" "}
-                    {dayjs(movies.ngayKhoiChieu).format("DD/MM/YYYY")}
+                    {dayjs(data?.ngayKhoiChieu).format("DD/MM/YYYY")}
                   </h2>
                   <h1 className="m-0 p-3">
                     <YoutubeOutlined />{" "}
-                    <a target="_blank" href={movies.trailer}>
+                    <a target="_blank" href={data?.trailer}>
                       Trailer
                     </a>
                   </h1>
@@ -68,7 +65,7 @@ export default function MovieDetails() {
                 ></span>{" "}
                 Chọn rạp chiếu
               </h1>
-              <LichChieuComponent></LichChieuComponent>
+              <LichChieuComponent marap={id}></LichChieuComponent>
             </div>
           </Card>
         </div>
