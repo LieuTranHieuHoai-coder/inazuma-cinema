@@ -54,7 +54,7 @@ export default function MovieDetails() {
                 </div>
               </div>
             </div>
-            <div className="m-0 p-3">
+            <div className="m-0 p-2">
               <h1 className="inline-flex items-baseline mb-5">
                 {" "}
                 <span

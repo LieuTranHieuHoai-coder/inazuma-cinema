@@ -14,12 +14,13 @@ import {
   ShowMovie,
 } from "../../../types/movie.type";
 import dayjs from "dayjs";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClockCircleOutlined, StarOutlined } from "@ant-design/icons";
 
 export default function LichChieuComponent() {
   const [maRap, setMarap] = useState("");
+  const navigate = useNavigate();
   let { id } = useParams();
   const { data } = useQuery({
     queryKey: ["ThongTinLichChieuHeThongRap"],
@@ -44,18 +45,20 @@ export default function LichChieuComponent() {
     []
   );
   const cloneTTC: ShowMovie | undefined = dataTTC;
-  const rapDaChon = (e: any) => {
-    const CRfound: HeThongRapChieu[] | undefined =
-      cloneTTC?.heThongRapChieu?.filter(
-        (item: HeThongRapChieu) => item.maHeThongRap === maRap
-      );
-    const founded: CumRapChieu[] | undefined = CRfound?.[0].cumRapChieu?.filter(
-      (cr: CumRapChieu) => cr.maCumRap === e
-    );
-    setlstLCTheoRap(founded?.[0].lichChieuPhim);
+  const rapDaChon = () => {
+    navigate("/bookingseat");
   };
   function renderRapToanQuoc() {
-    return cloneTTC?.heThongRapChieu?.map((item: HeThongRapChieu) => {
+    const listFilter: any = useMemo(() => {
+      if(!!maRap){
+        return cloneTTC?.heThongRapChieu?.filter((item: HeThongRapChieu) => item.maHeThongRap === maRap);
+      }
+      else{
+        return cloneTTC?.heThongRapChieu;
+      }
+    }, [maRap]);
+    
+    return listFilter?.map((item: HeThongRapChieu) => {
       return (
         <div>
           <h2 className="font-bold">{item.tenHeThongRap}</h2>
@@ -69,6 +72,9 @@ export default function LichChieuComponent() {
                   {cr.lichChieuPhim.map((lc) => {
                     return (
                       <Button
+                      onClick={() => {
+                        rapDaChon();
+                      }}
                         key={lc.maLichChieu}
                         className="button-lichchieu m-2 font-bold bg-white"
                       >
@@ -97,11 +103,54 @@ export default function LichChieuComponent() {
       );
     });
   }
+  // function renderRapToanQuoc() {
+  //   return cloneTTC?.heThongRapChieu?.map((item: HeThongRapChieu) => {
+  //     return (
+  //       <div>
+  //         <h2 className="font-bold">{item.tenHeThongRap}</h2>
+  //         {item.cumRapChieu?.map((cr) => {
+  //           return (
+  //             <div>
+  //               <h4 className="m-3">
+  //                 <StarOutlined /> {cr.tenCumRap}
+  //               </h4>
+  //               <div className="grid-cols-3 grid">
+  //                 {cr.lichChieuPhim.map((lc) => {
+  //                   return (
+  //                     <Button
+  //                       key={lc.maLichChieu}
+  //                       className="button-lichchieu m-2 font-bold bg-white"
+  //                     >
+  //                       <p>
+  //                         {dayjs(lc.ngayChieuGioChieu.toString()).format(
+  //                           "DD/MM"
+  //                         )}
+  //                       </p>
+  //                       <p>
+  //                         {dayjs(lc.ngayChieuGioChieu.toString()).format(
+  //                           "HH:mm"
+  //                         )}
+  //                       </p>
+  //                       <i>
+  //                         {" "}
+  //                         {lc.thoiLuong} <ClockCircleOutlined />
+  //                       </i>
+  //                     </Button>
+  //                   );
+  //                 })}
+  //               </div>
+  //             </div>
+  //           );
+  //         })}
+  //       </div>
+  //     );
+  //   });
+  // }
   function renderLichChieu() {
     return cloneTTC?.heThongRapChieu.map((item) => {
       return (
         <>
-          <img src={item.logo} width={60} style={{ cursor: "pointer" }} />
+          <img src={item.logo} width={60} style={{ cursor: "pointer" }} onClick={() => setMarap(item.maHeThongRap)}/>
         </>
       );
     });
@@ -114,7 +163,7 @@ export default function LichChieuComponent() {
       <Flex
         wrap
         gap="middle"
-        justify="space-start"
+        justify="space-between"
         align="baseline"
         className="mt-5"
       >
