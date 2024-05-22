@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { getListMovieApi } from "../../../apis/movie";
+import { getAllMovieApi, getListMovieApi } from "../../../apis/movie";
 import { PAGE_SIZE } from "../../../constants";
-import { Button, Card, Col, Row } from "antd";
+import { Button, Card, Col, Pagination, Row } from "antd";
 import Meta from "antd/es/card/Meta";
 import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -12,23 +12,43 @@ interface Props {
 export default function MovieList(props: Props) {
   const { tabname } = props;
   const navigate = useNavigate();
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["list-movie-user", 1],
-    queryFn: () => getListMovieApi(1),
+  const [currentPage, setCurrentPage] = useState(1);
+  // const { data, isLoading, error } = useQuery({
+  //   queryKey: ["list-movie", { currentPage }],
+  //   queryFn: () => getListMovieApi(currentPage),
+  // });
+
+  const { data: dataAll} = useQuery({
+    queryKey: ["list-movie-all"],
+    queryFn: () => getAllMovieApi(),
   });
-  const dataSource = data?.items || [];
+
+  // const dataSource = data?.items || [];
+  // let totalCount = data?.totalCount || 0;
+
+  const dataSource = dataAll || [];
+  let totalCount = dataAll?.length || 0;
   function getdataSource():any {
     switch (tabname) {
       case "phim":
-        return dataSource || [];
+        return dataSource.slice((currentPage-1)*PAGE_SIZE,((currentPage-1)*PAGE_SIZE)+PAGE_SIZE) || [];
       case "dangchieu":
-        return dataSource.filter((item:any) => item.dangChieu !== false ) || [];
+        const clone1 = dataAll?.filter((item) => item.dangChieu !== false ) || [];
+        totalCount = clone1.length;
+        return dataSource.filter((item:any) => item.dangChieu !== false )
+        .slice((currentPage-1)*PAGE_SIZE,((currentPage-1)*PAGE_SIZE)+PAGE_SIZE) || [];
       case "sapchieu":
-        return dataSource.filter((item:any) => item.sapChieu !== false ) || [];
+        const clone2 = dataAll?.filter((item:any) => item.sapChieu !== false ) || [];
+        totalCount = clone2.length;
+        return dataSource.filter((item:any) => item.sapChieu !== false )
+        .slice((currentPage-1)*PAGE_SIZE,((currentPage-1)*PAGE_SIZE)+PAGE_SIZE) || [];
       case "hot":
-        return dataSource.filter((item:any) => item.hot !== false ) || [];
+        const clone3 = dataAll?.filter((item:any) => item.hot !== false ) || [];
+        totalCount = clone3.length;
+        return dataSource.filter((item:any) => item.hot !== false )
+        .slice((currentPage-1)*PAGE_SIZE,((currentPage-1)*PAGE_SIZE)+PAGE_SIZE) || [];
       default:
-        return dataSource || [];
+        return dataSource.slice((currentPage-1)*PAGE_SIZE,((currentPage-1)*PAGE_SIZE)+PAGE_SIZE) || [];
     }
   }
   const style: React.CSSProperties = {
@@ -37,31 +57,23 @@ export default function MovieList(props: Props) {
   };
   const MovieItem = ({ item }: { item: any }) => {
     const [isHover, setIsHover] = useState(false);
-
     const handleMouseEnter = () => {
       setIsHover(true);
     };
-
     const handleMouseLeave = () => {
       setIsHover(false);
     };
-
     const [isHover2, setIsHover2] = useState(false);
-
     const handleMouseEnter2 = () => {
       setIsHover2(true);
     };
-
     const handleMouseLeave2 = () => {
       setIsHover2(false);
     };
-
     const [isHover3, setIsHover3] = useState(false);
-
     const handleMouseEnter3 = () => {
       setIsHover3(true);
     };
-
     const handleMouseLeave3 = () => {
       setIsHover3(false);
     };
@@ -144,7 +156,6 @@ export default function MovieList(props: Props) {
       </Col>
     );
   };
-
   return (
     <div>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
@@ -152,6 +163,17 @@ export default function MovieList(props: Props) {
           <MovieItem item={item} key={item.maPhim} />
         ))}
       </Row>
+
+      <div className="flex float-end mt-4 pb-4">
+          <Pagination
+            defaultCurrent={currentPage} // khi user thao tác sẽ lấy đươch currentPage
+            total={totalCount} // lấy từ api
+            pageSize={PAGE_SIZE}
+            onChange={(page: number) => {
+              setCurrentPage(page);
+            }}
+          />
+        </div>
     </div>
   );
 }
