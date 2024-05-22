@@ -6,7 +6,8 @@ import { DanhSachGhe, GiaVePhim } from "../../../types/movie.type";
 import { Badge, Card, Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";
 import dayjs from "dayjs";
-import { useAppDispatch } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { setBookingSeat } from "../../../redux/slices/bookseat.slice";
 export default function BookSeat() {
   //const seats = data;
   const { id } = useParams();
@@ -14,6 +15,14 @@ export default function BookSeat() {
     queryKey: ["GIAVEPHIM"],
     queryFn: () => getGiaVePhim(id ?? ""),
   });
+  const { listSeat } = useAppSelector((state)=> state.bookingSeat);
+  const totalPrice = () => {
+    let total = 0;
+    listSeat.forEach((item) => {
+      total += item.giaVe;
+    });
+    return total;
+  }
   const dispatch = useAppDispatch();
   function renderSeat() {
     let i = 1;
@@ -83,7 +92,7 @@ export default function BookSeat() {
                   <input
                     type="checkbox"
                     className="checkbox-vip"
-                    content={item.tenGhe}
+                    onChange={() => dispatch(setBookingSeat(item))}
                   />
                   <label
                     htmlFor={item.maGhe.toString()}
@@ -104,6 +113,7 @@ export default function BookSeat() {
                 type="checkbox"
                 className="checkbox"
                 id={item.maGhe.toString()}
+                onChange={() => dispatch(setBookingSeat(item))}
               />
               <label
                 htmlFor={item.maGhe.toString()}
@@ -120,6 +130,8 @@ export default function BookSeat() {
       });
     }
   }
+
+  
   const items: DescriptionsProps["items"] = [
     {
       key: "1",
@@ -164,7 +176,7 @@ export default function BookSeat() {
     {
       key: "10",
       label: "Tổng tiền",
-      children: <b>$80.00</b>,
+      children: <b>{totalPrice()} VNĐ</b>,
       span: 3,
     },
   ];

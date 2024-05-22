@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { DanhSachGhe } from "../../types/movie.type";
 
-const initialState = {
+const initialState: {listSeat: DanhSachGhe[]} = {
     listSeat: [],
 };
 const bookSeat = createSlice({
@@ -8,7 +9,17 @@ const bookSeat = createSlice({
   initialState,
   reducers: {
     setBookingSeat: (state, { payload }) => {
-      state.listSeat = payload;
+      const clone:DanhSachGhe[] = [...state.listSeat];
+      const index = clone.findIndex((item) => item.maGhe === payload.maGhe);
+      if(index === -1){
+        clone.push(payload);
+        state.listSeat = clone;
+      }
+      else{
+        clone.splice(index, 1)
+        state.listSeat = clone;
+      }
+      
     },
   },
 });
