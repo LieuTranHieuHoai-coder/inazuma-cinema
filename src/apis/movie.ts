@@ -71,7 +71,7 @@ export const getThongTinPhim = async (maphim:string) => {
     throw Error(error);
   }
 }
-export const getThongTinLichChieuPhim = async (maphim:string) => {
+export const getThongTinLichChieuPhim = async (maphim:string | undefined) => {
   try {
     const response = await api.get<ResponseApi<ShowMovie>>(
       "QuanLyRap/LayThongTinLichChieuPhim?MaPhim=" + maphim

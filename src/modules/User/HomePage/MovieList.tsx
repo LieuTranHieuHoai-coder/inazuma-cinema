@@ -12,7 +12,6 @@ interface Props {
 export default function MovieList(props: Props) {
   const { tabname } = props;
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading, error } = useQuery({
     queryKey: ["list-movie-user", 1],
     queryFn: () => getListMovieApi(1),
