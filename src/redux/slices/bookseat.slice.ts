@@ -21,7 +21,10 @@ const bookSeat = createSlice({
       }
       
     },
+    deleteBookingSeat: (state) => {
+      state.listSeat = [];
+    },
   },
 });
-export const { setBookingSeat } = bookSeat.actions;
+export const { setBookingSeat, deleteBookingSeat } = bookSeat.actions;
 export default bookSeat;

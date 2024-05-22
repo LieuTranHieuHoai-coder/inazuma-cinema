@@ -29,9 +29,6 @@ export default function LichChieuComponent(props: MarapProps) {
     queryKey: ["ThongTinLichChieuPhim"],
     queryFn: () => getThongTinLichChieuPhim(id ?? ""),
   });
-
-  console.log(dataTTC);
-  console.log(isLoadingTTC);
   const rapDaChon = (maLichChieu: string) => {
     navigate("/bookingseat/" + maLichChieu);
   };
@@ -39,14 +36,6 @@ export default function LichChieuComponent(props: MarapProps) {
     if (isLoadingTTC) {
       return <div>Loading...</div>;
     } else {
-      // const listFilter: any = useMemo(() => {
-      //   if(!!maRap){
-      //     return dataTTC?.heThongRapChieu?.filter((item: HeThongRapChieu) => item.maHeThongRap === maRap);
-      //   }
-      //   else{
-      //     return dataTTC?.heThongRapChieu;
-      //   }
-      // }, [maRap]);
       if(!!maRap){
         const clone = dataTTC?.heThongRapChieu.filter((item: HeThongRapChieu) => item.maHeThongRap === maRap);
         return clone?.map((item: HeThongRapChieu) => {
@@ -140,11 +129,8 @@ export default function LichChieuComponent(props: MarapProps) {
           );
         });
       }
-      
-      
     }
-  }
-
+  };
   const renderLichChieu = () => {
     return dataTTC?.heThongRapChieu.map((item) => {
       return (
@@ -165,16 +151,6 @@ export default function LichChieuComponent(props: MarapProps) {
         {renderLichChieu()}
       </Flex>
       {renderRapToanQuoc()}
-      {/* <Flex
-        wrap
-        gap="middle"
-        justify="space-between"
-        align="baseline"
-        className="mt-5"
-      >
-
-        { renderRapToanQuoc()}
-      </Flex> */}
     </div>
   );
 }

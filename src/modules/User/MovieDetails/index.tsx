@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { CalendarOutlined, YoutubeOutlined } from "@ant-design/icons";
 import LichChieuComponent from "./lichchieu";
-import { useCallback, useMemo } from "react";
 
 export default function MovieDetails() {
   let { id } = useParams();

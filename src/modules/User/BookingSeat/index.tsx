@@ -7,7 +7,8 @@ import { Badge, Card, Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";
 import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { setBookingSeat } from "../../../redux/slices/bookseat.slice";
+import { deleteBookingSeat, setBookingSeat } from "../../../redux/slices/bookseat.slice";
+import { useCallback, useEffect } from "react";
 export default function BookSeat() {
   //const seats = data;
   const { id } = useParams();
@@ -15,6 +16,10 @@ export default function BookSeat() {
     queryKey: ["GIAVEPHIM"],
     queryFn: () => getGiaVePhim(id ?? ""),
   });
+  useEffect(() =>{
+    dispatch(deleteBookingSeat());
+  },[id]);
+
   const { listSeat } = useAppSelector((state)=> state.bookingSeat);
   const totalPrice = () => {
     let total = 0;
@@ -130,8 +135,15 @@ export default function BookSeat() {
       });
     }
   }
-
-  
+  function gheDaDat(){
+    return listSeat.map((item) =>{
+      return(
+        <>
+          <p>{item.loaiGhe}: <span>{item.tenGhe}</span></p>
+        </>
+      )
+    })
+  }
   const items: DescriptionsProps["items"] = [
     {
       key: "1",
@@ -157,18 +169,7 @@ export default function BookSeat() {
       label: "Ghế Đã Đặt",
       children: (
         <>
-          Ghế thường: 01
-          <br />
-          Ghế thường: 12
-          <br />
-          Ghế thường: 56
-          <br />
-          Ghế thường: 21
-          <br />
-          Ghế thường: 50
-          <br />
-          Ghế thường: 13
-          <br />
+          {gheDaDat()}
         </>
       ),
       span: 3,
